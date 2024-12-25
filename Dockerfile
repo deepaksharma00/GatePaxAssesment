@@ -4,15 +4,18 @@ FROM python:3.9-slim
 # Set working directory
 WORKDIR /app
 
-# Copy the requirements file and install dependencies
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+# COPY .env /app/.env
 
-# Copy the application code
+# Copy the application code and environment file
 COPY . .
 
-# Expose port 8080
+# Install dependencies
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Expose port 8080 for Cloud Run
 EXPOSE 8080
 
-# Run Functions Framework with hot-reloading
-CMD ["functions-framework", "--target=handler", "--debug", "--port=8080"]
+# Start the Flask application
+CMD ["functions-framework", "--target=handler", "--port=8080"]
+
+
